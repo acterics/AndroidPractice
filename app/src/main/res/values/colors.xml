@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3f51b5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorSand">#ffa000</color>
+    <color name="colorSandDark">#ff7b00</color>
+    <color name="colorSandAccent">#ffe082</color>
+    <color name="colorSandBackground">#e6ee9c</color>
+    <color name="selectedItemColor">#422c47f7</color>
+    <color name="itemColor">#00ffffff</color>
+    <color name="blue">#75304ffe</color>
+</resources>
