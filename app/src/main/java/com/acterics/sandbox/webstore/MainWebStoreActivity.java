@@ -1,34 +1,42 @@
 package com.acterics.sandbox.webstore;
 
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.CursorAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.AdapterView;
+
 
 import com.acterics.sandbox.R;
-import com.acterics.sandbox.webstore.database.EntryInputActivity;
+import com.acterics.sandbox.utils.Utils;
+import com.acterics.sandbox.webstore.database.CartFragment;
+import com.acterics.sandbox.webstore.database.DatabaseFragment;
 import com.acterics.sandbox.webstore.database.StoreContentReaderContract;
-import com.acterics.sandbox.webstore.database.StoreDatabaseActivity;
+import com.mikepenz.iconics.typeface.FontAwesome;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import static com.acterics.sandbox.webstore.database.StoreContentReaderContract.*;
 
+//TODO add orientation changing handler
 
-
-public class MainWebStoreActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainWebStoreActivity extends AppCompatActivity {
 
 
     private final static String log = "MAIN_WEBSTORE_LOGGER";
 
-    public static StoreContentReaderContract getStoreContentReaderContract() {
-        return storeContentReaderContract;
-    }
-
+    private Drawer.Result drawerResult= null;
     private static StoreContentReaderContract storeContentReaderContract;
+
+    private FragmentTransaction fragmentTransaction = null;
+    private Fragment currentFragment = null;
+
 
 
 
@@ -37,31 +45,112 @@ public class MainWebStoreActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_web_store);
 
-        ImageButton cartButton = (ImageButton) findViewById(R.id.cart_button);
-        ImageButton entryInputButton = (ImageButton) findViewById(R.id.entry_input_button);
-        assert cartButton != null;
-        assert entryInputButton != null;
-
-        cartButton.setOnClickListener(this);
-        entryInputButton.setOnClickListener(this);
-
         storeContentReaderContract = new StoreContentReaderContract(this);
 
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_layout, new DatabaseFragment());
+        fragmentTransaction.commit();
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.web_store_toolbar);
+        try {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (Exception e) {
+            Log.e(log, e.getMessage());
+        }
+
+        drawerResult = new Drawer()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withActionBarDrawerToggle(true)
+                .withHeader(R.layout.drawer_header)
+                .addDrawerItems(
+                        new PrimaryDrawerItem()
+                            .withName(R.string.database_admin)
+                            .withIdentifier(R.string.database_admin)
+                            .withIcon(FontAwesome.Icon.faw_database),
+                        new PrimaryDrawerItem()
+                            .withName(R.string.cart)
+                            .withIcon(FontAwesome.Icon.faw_shopping_cart)
+                            .withIdentifier(R.string.cart),
+
+                        new DividerDrawerItem(),
+
+                        new SecondaryDrawerItem()
+                            .withName(R.string.options)
+                            .withIcon(FontAwesome.Icon.faw_cog)
+                            .withIdentifier(R.string.options),
+
+                        new DividerDrawerItem(),
+
+                        new SecondaryDrawerItem()
+                            .withName(R.string.exit)
+                            .withIdentifier(R.string.exit)
+                            .withIcon(FontAwesome.Icon.faw_eraser)
+                )
+                .withOnDrawerListener(new Drawer.OnDrawerListener() {
+                    @Override
+                    public void onDrawerOpened(View drawerView) {
+                        Utils.hideSoftKeyBoard(MainWebStoreActivity.this);
+                    }
+
+                    @Override
+                    public void onDrawerClosed(View drawerView) {
+                    }
+                })
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
+
+                        fragmentTransaction = getFragmentManager().beginTransaction();
+
+
+
+                        int identifier = 0;
+                        try {
+                            identifier = drawerItem.getIdentifier();
+                        } catch (Exception e) {
+                            Log.e(log, e.getMessage());
+                        }
+
+
+                        switch (identifier) {
+                            case R.string.database_admin:
+                                currentFragment = new DatabaseFragment();
+                                break;
+                            case R.string.cart:
+                                currentFragment = new CartFragment();
+                                break;
+                            case R.string.options:
+                                break;
+                            case R.string.exit:
+                                MainWebStoreActivity.super.onBackPressed();
+                                break;
+
+                        }
+                        if(currentFragment != null) {
+                            fragmentTransaction.replace(R.id.fragment_layout, currentFragment);
+                            fragmentTransaction.commit();
+                        }
+                    }
+                })
+                .withDrawerWidthDp(300)
+                .build();
     }
 
     @Override
-    public void onClick(View v) {
-        Log.i(log, "Item clicked with id " + v.getId());
-        Intent intent;
-        switch (v.getId()) {
-            case R.id.cart_button :
-                intent= new Intent(this, StoreDatabaseActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.entry_input_button :
-                intent = new Intent(this, EntryInputActivity.class);
-                startActivity(intent);
-                break;
+    public void onBackPressed() {
+        if(drawerResult.isDrawerOpen()) {
+            drawerResult.closeDrawer();
+        } else {
+            super.onBackPressed();
         }
+
+    }
+
+
+
+    public static StoreContentReaderContract getStoreContentReaderContract() {
+        return storeContentReaderContract;
     }
 }

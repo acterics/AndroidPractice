@@ -97,9 +97,6 @@ public class EntryInputActivity extends AppCompatActivity {
 
 
     private static boolean isEmptyField(TextView v) {
-        if(v.getText().toString().isEmpty()) {
-            return true;
-        }
-        return false;
+        return v.getText().toString().isEmpty();
     }
 }

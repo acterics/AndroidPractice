@@ -1,6 +1,7 @@
 package com.acterics.sandbox;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.widget.DrawerLayout;
@@ -28,13 +29,11 @@ import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
-
-//TODO create navigation drawer
-public class ActivityOne extends AppCompatActivity implements View.OnClickListener{
+//TODO add fragments
+public class ActivityOne extends AppCompatActivity {
     private static final String log = "ACTIVITY_ONE_LOGGER";
 
     private Drawer.Result drawerResult = null;
-
 
 
     @Override
@@ -42,7 +41,9 @@ public class ActivityOne extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         try {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,6 +65,10 @@ public class ActivityOne extends AppCompatActivity implements View.OnClickListen
                                 .withIdentifier(R.string.web_store)
                                 .withName(R.string.web_store)
                                 .withIcon(FontAwesome.Icon.faw_cart_plus),
+                        new PrimaryDrawerItem()
+                                .withName(R.string.chat)
+                                .withIdentifier(R.string.chat)
+                                .withIcon(FontAwesome.Icon.faw_wechat),
                         new DividerDrawerItem(),
 
                         new SecondaryDrawerItem()
@@ -109,7 +114,7 @@ public class ActivityOne extends AppCompatActivity implements View.OnClickListen
                                 startActivity(intent);
                                 break;
                             case R.string.open_source:
-                                Uri address = Uri.parse("https://github.com/acterics");
+                                Uri address = Uri.parse("https://github.com/acterics/AndroidPractice");
                                 Intent openLinkIntent = new Intent(Intent.ACTION_VIEW, address);
                                 startActivity(openLinkIntent);
                                 break;
@@ -119,6 +124,7 @@ public class ActivityOne extends AppCompatActivity implements View.OnClickListen
                         }
                     }
                 })
+                .withDrawerWidthDp(300)
                 .build();
 
 
@@ -140,18 +146,7 @@ public class ActivityOne extends AppCompatActivity implements View.OnClickListen
         super.onResume();
     }
 
-    @Override
-    public void onClick(View v) {
-        Log.i(log, "Click view with id:" + v.getId());
-//        switch (v.getId()) {
-//            case R.id.web_store :
-//                Intent intent = new Intent(this, MainWebStoreActivity.class);
-//                startActivity(intent);
-//                break;
-//            default:
 
-//        }
-    }
 }
 
 

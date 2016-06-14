@@ -1,7 +1,9 @@
 package com.acterics.sandbox.webstore.database;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,6 +11,8 @@ import android.os.AsyncTask;
 import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import com.acterics.sandbox.R;
 
 import java.util.concurrent.ExecutionException;
 
@@ -114,28 +118,36 @@ public final class StoreContentReaderContract {
 
         @Override
         protected Cursor doInBackground(Void... params) {
-            SQLiteDatabase mDb = mDbHelper.getReadableDatabase();
-            String[] projection = {
-                    StoreContentEntry._ID,
-                    StoreContentEntry.COLUMN_NAME_PRODUCT,
-                    StoreContentEntry.COLUMN_NAME_PRICE,
-                    StoreContentEntry.COLUMN_NAME_SELL_DATE
-            };
+            try {
+                SQLiteDatabase mDb = mDbHelper.getReadableDatabase();
+                String[] projection = {
+                        StoreContentEntry._ID,
+                        StoreContentEntry.COLUMN_NAME_PRODUCT,
+                        StoreContentEntry.COLUMN_NAME_PRICE,
+                        StoreContentEntry.COLUMN_NAME_SELL_DATE
+                };
 
-           //String order = StoreContentEntry.COLUMN_NAME_PRODUCT + " DESC";
-            String order = StoreContentEntry._ID;
+                //String order = StoreContentEntry.COLUMN_NAME_PRODUCT + " DESC";
+                String order = StoreContentEntry._ID;
 
-            return mDb.query(
-                    StoreContentEntry.TABLE_NAME,
-                    projection,
-                    null,
-                    null,
-                    null,
-                    null,
-                    order);
+                return mDb.query(
+                        StoreContentEntry.TABLE_NAME,
+                        projection,
+                        null,
+                        null,
+                        null,
+                        null,
+                        order);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
 
         }
     }
+
+
+
 
     public void insert(String name, String prise, String date) {
         new InsertEntryTask().execute(name, prise, date);
@@ -151,6 +163,36 @@ public final class StoreContentReaderContract {
         }
         return null;
     }
+
+    public void clear(final Context context) {
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.warning)
+                .setMessage(R.string.clear_warning_message)
+                .setPositiveButton(R.string.clear, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SQLiteDatabase mDb = mDbHelper.getReadableDatabase();
+                        mDb.execSQL(SQL_DELETE_ENTRIES);
+                        mDb.execSQL(SQL_CREATE_ENTRIES);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create().show();
+    }
+
+    public void create() {
+        try {
+            SQLiteDatabase mDb = mDbHelper.getReadableDatabase();
+            mDb.execSQL(SQL_CREATE_ENTRIES);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

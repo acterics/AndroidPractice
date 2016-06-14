@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">SandBox</string>
     <string name="activity_one_title">Projects</string>
-    <string name="web_store">Web Store</string>
+
     <string name="store_content">Store content</string>
-    <string name="cart">Cart</string>
+
     <string name="cancel">Cancel</string>
     <string name="apply">Apply</string>
     <string name="add_button_description">Add store item to cart</string>
@@ -13,19 +13,39 @@
     <string name="product_name">Product name</string>
     <string name="product_price">Product price</string>
     <string name="product_date">Product date</string>
+
     <string name="date">Date</string>
     <string name="clear">Clear</string>
     <string name="add">Add</string>
+
+
     <string name="toast_fill_empty_field">Fill empty field(s)</string>
     <string name="toast_entry_added_successfully">Entry added successfully</string>
     <string name="toast_already_added_in_list">Item has already added in the list</string>
     <string name="toast_unhandled_item">Unhandled item</string>
+
+
     <string name="drawer_has_opened">Drawer has opened</string>
     <string name="drawer_has_closed">Drawer has closed</string>
+
+    <string name="web_store">Web Store</string>
     <string name="options">Options</string>
     <string name="main_page">Main Page</string>
     <string name="help">Help</string>
     <string name="open_source">Open Source</string>
+
+    <string name="database_admin">Database admin</string>
+    <string name="cart">Cart</string>
+    <string name="exit">Exit</string>
+    <string name="delete_entry">Delete entry</string>
+    <string name="add_entry">Add entry</string>
+    <string name="clear_database">Clear database</string>
+
+    <string name="warning">Warning!</string>
+    <string name="clear_warning_message">Are you sure that you want to clear database?</string>
+
+    <string name="chat">Chat</string>
+
 
 
 </resources>
