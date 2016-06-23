@@ -1,4 +1,4 @@
-package com.acterics.sandbox.webstore.database;
+package com.acterics.sandbox.webstore;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.acterics.sandbox.R;
 
 
-public class CartFragment extends Fragment {
+public class FragmentCart extends Fragment {
 
 
     @Override

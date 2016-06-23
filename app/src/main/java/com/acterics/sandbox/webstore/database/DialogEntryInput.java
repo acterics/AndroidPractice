@@ -1,12 +1,10 @@
 package com.acterics.sandbox.webstore.database;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,7 +13,7 @@ import android.widget.Toast;
 import com.acterics.sandbox.R;
 import com.acterics.sandbox.utils.Utils;
 
-public class EntryInputActivity extends AppCompatActivity {
+public class DialogEntryInput extends AppCompatActivity {
 
     private final static String log = "ENTRY_INPUT_LOGGER";
 
@@ -43,7 +41,7 @@ public class EntryInputActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Utils.hideSoftKeyBoard(EntryInputActivity.this);
+                Utils.hideSoftKeyBoard(DialogEntryInput.this);
 
 
                 productDateInput.setText("");
@@ -62,7 +60,7 @@ public class EntryInputActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         Log.e(log, e.getMessage());
                     }
-                    Toast toast = Toast.makeText(EntryInputActivity.this, R.string.toast_entry_added_successfully, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(DialogEntryInput.this, R.string.toast_entry_added_successfully, Toast.LENGTH_SHORT);
                     toast.show();
                     onBackPressed();
 
@@ -71,9 +69,9 @@ public class EntryInputActivity extends AppCompatActivity {
                     //Set focus on empty field
                     emptyView.requestFocus();
                     //Show keyboard
-                    Utils.showSoftKeyboard(EntryInputActivity.this, emptyView);
+                    Utils.showSoftKeyboard(DialogEntryInput.this, emptyView);
 
-                    Toast toast = Toast.makeText(EntryInputActivity.this, R.string.toast_fill_empty_field, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(DialogEntryInput.this, R.string.toast_fill_empty_field, Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }

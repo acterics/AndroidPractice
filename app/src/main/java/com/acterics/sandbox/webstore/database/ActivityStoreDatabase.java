@@ -1,22 +1,18 @@
 package com.acterics.sandbox.webstore.database;
 
-import android.database.Cursor;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import com.acterics.sandbox.R;
-import com.acterics.sandbox.webstore.MainWebStoreActivity;
+import com.acterics.sandbox.webstore.ActivityMainWebStore;
 
-public class StoreDatabaseActivity extends AppCompatActivity {
+public class ActivityStoreDatabase extends AppCompatActivity {
 
     private final static String log = "DATABASE_LOGGER";
     private ListView storeContentList = null;
@@ -48,7 +44,7 @@ public class StoreDatabaseActivity extends AppCompatActivity {
             }
         });
 
-        storeContent = MainWebStoreActivity.getStoreContentReaderContract();
+        storeContent = ActivityMainWebStore.getStoreContentReaderContract();
         String[] from = {StoreContentReaderContract.StoreContentEntry.COLUMN_NAME_PRODUCT, StoreContentReaderContract.StoreContentEntry.COLUMN_NAME_PRICE};
         int[] to = {R.id.product_name_field, R.id.product_price_field};
         try {

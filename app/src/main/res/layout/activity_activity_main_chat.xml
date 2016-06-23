@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".webstore.ActivityMainWebStore">
+    tools:context=".chat.ActivityMainChat">
+
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/web_store_toolbar"
+        android:id="@+id/chat_toolbar"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
@@ -19,9 +20,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/web_store_fragment_layout">
+        android:id="@+id/chat_fragment_layout">
 
     </FrameLayout>
-
 
 </LinearLayout>

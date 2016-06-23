@@ -1,4 +1,4 @@
-package com.acterics.sandbox.webstore.database;
+package com.acterics.sandbox.webstore;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import com.acterics.sandbox.R;
-import com.acterics.sandbox.webstore.MainWebStoreActivity;
+import com.acterics.sandbox.webstore.database.DialogEntryInput;
 
 import static com.acterics.sandbox.webstore.database.StoreContentReaderContract.StoreContentEntry.COLUMN_NAME_PRICE;
 import static com.acterics.sandbox.webstore.database.StoreContentReaderContract.StoreContentEntry.COLUMN_NAME_PRODUCT;
@@ -22,7 +22,7 @@ import static com.acterics.sandbox.webstore.database.StoreContentReaderContract.
 /**
  * Created by User on 12.06.2016.
  */
-public class DatabaseFragment extends Fragment {
+public class FragmentDatabase extends Fragment {
 
     ListView databaseContentList = null;
 
@@ -46,7 +46,7 @@ public class DatabaseFragment extends Fragment {
         addEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent entryInputDialogIntent = new Intent(getActivity(), EntryInputActivity.class);
+                Intent entryInputDialogIntent = new Intent(getActivity(), DialogEntryInput.class);
                 startActivity(entryInputDialogIntent);
             }
         });
@@ -55,7 +55,7 @@ public class DatabaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                     onPause();
-                    MainWebStoreActivity.getStoreContentReaderContract().clear(DatabaseFragment.this.getActivity());
+                    ActivityMainWebStore.getStoreContentReaderContract().clear(FragmentDatabase.this.getActivity());
             }
         });
 
@@ -76,15 +76,15 @@ public class DatabaseFragment extends Fragment {
         int[] to = {R.id.product_name_field, R.id.product_price_field, R.id.product_date_field};
 
         try {
-            Cursor databaseCursor = MainWebStoreActivity.getStoreContentReaderContract().read();
+            Cursor databaseCursor = ActivityMainWebStore.getStoreContentReaderContract().read();
             if(databaseCursor == null) {
-                MainWebStoreActivity.getStoreContentReaderContract().create();
+                ActivityMainWebStore.getStoreContentReaderContract().create();
                 databaseContentList.setAdapter(null);
             }
             else {
                 databaseContentList.setAdapter(new SimpleCursorAdapter(getActivity(),
                         R.layout.store_content_item,
-                        MainWebStoreActivity.getStoreContentReaderContract().read(),
+                        ActivityMainWebStore.getStoreContentReaderContract().read(),
                         from,
                         to));
             }

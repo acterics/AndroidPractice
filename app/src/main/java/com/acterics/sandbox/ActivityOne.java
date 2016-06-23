@@ -1,35 +1,27 @@
 package com.acterics.sandbox;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acterics.sandbox.utils.Utils;
-import com.acterics.sandbox.webstore.MainWebStoreActivity;
+import com.acterics.sandbox.webstore.ActivityMainWebStore;
+import com.acterics.sandbox.chat.ActivityMainChat;
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
-//TODO add fragments
+
 public class ActivityOne extends AppCompatActivity {
     private static final String log = "ACTIVITY_ONE_LOGGER";
 
@@ -109,22 +101,26 @@ public class ActivityOne extends AppCompatActivity {
                             Log.e(log, e.getMessage());
                         }
                         switch (identifier) {
+
                             case R.string.web_store:
-                                Intent intent = new Intent(ActivityOne.this, MainWebStoreActivity.class);
-                                startActivity(intent);
+                                Utils.startIndependActivity(ActivityOne.this, ActivityMainWebStore.class);
+                                break;
+                            case R.string.chat:
+                                Utils.startIndependActivity(ActivityOne.this, ActivityMainChat.class);
                                 break;
                             case R.string.open_source:
                                 Uri address = Uri.parse("https://github.com/acterics/AndroidPractice");
                                 Intent openLinkIntent = new Intent(Intent.ACTION_VIEW, address);
                                 startActivity(openLinkIntent);
                                 break;
+
                             default:
                                 Toast.makeText(ActivityOne.this, R.string.toast_unhandled_item, Toast.LENGTH_SHORT).show();
 
                         }
                     }
                 })
-                .withDrawerWidthDp(300)
+                .withDrawerWidthDp(getResources().getInteger(R.integer.drawer_width))
                 .build();
 
 

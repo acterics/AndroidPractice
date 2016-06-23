@@ -13,8 +13,6 @@ import android.widget.AdapterView;
 
 import com.acterics.sandbox.R;
 import com.acterics.sandbox.utils.Utils;
-import com.acterics.sandbox.webstore.database.CartFragment;
-import com.acterics.sandbox.webstore.database.DatabaseFragment;
 import com.acterics.sandbox.webstore.database.StoreContentReaderContract;
 import com.mikepenz.iconics.typeface.FontAwesome;
 import com.mikepenz.materialdrawer.Drawer;
@@ -26,7 +24,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 //TODO add orientation changing handler
 
-public class MainWebStoreActivity extends AppCompatActivity {
+public class ActivityMainWebStore extends AppCompatActivity {
 
 
     private final static String log = "MAIN_WEBSTORE_LOGGER";
@@ -48,7 +46,7 @@ public class MainWebStoreActivity extends AppCompatActivity {
         storeContentReaderContract = new StoreContentReaderContract(this);
 
         fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_layout, new DatabaseFragment());
+        fragmentTransaction.add(R.id.web_store_fragment_layout, new FragmentDatabase());
         fragmentTransaction.commit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.web_store_toolbar);
@@ -91,7 +89,7 @@ public class MainWebStoreActivity extends AppCompatActivity {
                 .withOnDrawerListener(new Drawer.OnDrawerListener() {
                     @Override
                     public void onDrawerOpened(View drawerView) {
-                        Utils.hideSoftKeyBoard(MainWebStoreActivity.this);
+                        Utils.hideSoftKeyBoard(ActivityMainWebStore.this);
                     }
 
                     @Override
@@ -116,25 +114,25 @@ public class MainWebStoreActivity extends AppCompatActivity {
 
                         switch (identifier) {
                             case R.string.database_admin:
-                                currentFragment = new DatabaseFragment();
+                                currentFragment = new FragmentDatabase();
                                 break;
                             case R.string.cart:
-                                currentFragment = new CartFragment();
+                                currentFragment = new FragmentCart();
                                 break;
                             case R.string.options:
                                 break;
                             case R.string.exit:
-                                MainWebStoreActivity.super.onBackPressed();
+                                ActivityMainWebStore.super.onBackPressed();
                                 break;
 
                         }
                         if(currentFragment != null) {
-                            fragmentTransaction.replace(R.id.fragment_layout, currentFragment);
+                            fragmentTransaction.replace(R.id.web_store_fragment_layout, currentFragment);
                             fragmentTransaction.commit();
                         }
                     }
                 })
-                .withDrawerWidthDp(300)
+                .withDrawerWidthDp(getResources().getInteger(R.integer.drawer_width))
                 .build();
     }
 
